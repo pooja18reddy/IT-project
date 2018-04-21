@@ -1,11 +1,4 @@
 <html>
-
-
-
-
-
-
-
 	<head>
 		<?php
 	session_start();
