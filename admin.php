@@ -28,16 +28,19 @@
 		<center><h2>Welcome, Admin</h2></center>
 <div class="tab"><table class="table" border=1px rules="all">
 		<tr>
-				<th colspan="2">Section 1</th>
+				<th colspan="3">Section 1</th>
 		</tr>
 		<tr>
 			<th>Candidate</th>
-			<th>Vote</th>
+			<th>CGPA</th>
+			<th>Disapprove</th>
 		</tr>
-		<?php while($row1=mysqli_fetch_array($result1,MYSQLI_ASSOC)){ ?>
+		<?php while($row1=mysqli_fetch_array($result1)){ ?>
 		<tr>
 			<td><?php echo $row1['name']; ?></td>
-			<td><?php echo $row1['vote_count']; ?></td>
+			<td><?php echo $row1['cgpa']; ?></td>
+			<td><center><input type="radio" name="cand" value="<?php echo $row1['id'];  ?>" form="dis"/></center>
+			</td>
 		<?php } ?>
 		</tr>
 		</table>
@@ -45,37 +48,56 @@
 
 		<table class="table" border=1px rules="all">
 		<tr>
-				<th colspan="2">Section 2</th>
+				<th colspan="3">Section 2</th>
 		</tr>
 		<tr>
 			<th>Candidate</th>
-			<th>Vote</th>
+			<th>CGPA</th>
+			<th>Disapprove</th>
 		</tr>
-		<?php while($row2=mysqli_fetch_array($result2,MYSQLI_ASSOC)){ ?>
+		<?php while($row2=mysqli_fetch_array($result2)){ ?>
 		<tr>
 			<td><?php echo $row2['name']; ?></td>
-			<td><?php echo $row2['vote_count']; ?></td>
+			<td><?php echo $row2['cgpa']; ?></td>
+			<td><center><input type="radio" name="cand" value="<?php echo $row2['id'];  ?>" form="dis"/></center>
+			</td>
 		</tr>
 			<?php } ?>
 		</table>
 		<table border=1px rules="all">
 		<tr>
-				<th colspan="2">Section 3</th>
+				<th colspan="3">Section 3</th>
 		</tr>
 		<tr>
 			<th>Candidate</th>
-			<th>Vote</th>
+			<th>CGPA</th>
+			<th>Disapprove</th>
 		</tr>
-		<?php while($row3=mysqli_fetch_array($result3,MYSQLI_ASSOC)){ ?>
+		<?php while($row3=mysqli_fetch_array($result3)){ ?>
 		<tr>
 			<td><?php echo $row3['name']; ?></td>
-			<td><?php echo $row3['vote_count']; ?></td>
+			<td><?php echo $row3['cgpa']; ?></td>
+			<td><center><input type="radio" name="cand" value="<?php echo $row3['id'];  ?>" form="dis"/></center>
+			</td>
 		</tr>
 			<?php } ?>
 		</table>
 		
 </div>
 <center>
+<form action="" id="dis" method="post">
+	<input type="submit" value="Remove Candidate" name="remove">
+</form>
+</center>
+<?php
+include("connect.php");
+if(isset($_POST["remove"])){
+$cand=$_POST['cand'];
+	$query="delete from candidate where id='$cand'";
+	if(mysqli_query($dbh,$query))
+		header('location:admin.php');
+}
+?>
 <form action=" " method="post">
 	<input type="submit" value="show result" name="submit">
 </form>
