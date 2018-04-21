@@ -3,7 +3,6 @@
 		<?php
 	session_start();
 	include('connect.php');
-        $query="select count(id) from cr";
 	$query1="select * from candidate where section=1 and cgpa>6.5 order by vote_count desc;";
 	$result1=mysqli_query($dbh,$query1);
 	$query2="select * from candidate where section=2 and cgpa>6.5 order by vote_count desc;";
@@ -85,13 +84,30 @@
 <?php
 include("connect.php");
 if(isset($_POST["submit"])){
-
-$query = mysqli_query($dbh, "insert into candidate(name,id,section,cgpa) values('$name','$id','$sec','$cgpa');")or die("Error adding");
-echo "added";
+$qr="select c1.* from candidate c1 join (select section,max(vote_count) as vote_count from candidate  group by section)b on c1.section=b.section and c1.vote_count=b.vote_count and c1.cgpa>6.5;";
+$r=mysqli_query($dbh,$qr) or die ("error querying");
+while($row=mysqli_fetch_array($r,MYSQLI_ASSOC))
+{
+echo '<h1> WINNERS </h1>';
+echo '<table border=2 align=center>';
+echo '<tr>';
+echo '<th WIDTH=50> STUDENT ID </th>';
+echo '<th WIDTH=90> NAME </th>';
+echo '<th WIDTH=90> SECTION </th>';
+echo '<table border=1 align=center>';
+echo '<tr>';
+echo '<td width=50> '.$row['id'].' </td>';
+echo '<td width=90> '.$row['name'].' </td>';
+echo '<td width=90> '.$row['section'].' </td>';
+echo '</tr>';
+echo '</table>';
+}
 }
 
 ?>
 
 	</body>
 </html>		
+
+	
 
